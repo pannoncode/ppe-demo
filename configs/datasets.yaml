@@ -1,0 +1,79 @@
+# Adatforrások és osztálytérkép a két modellhez.
+# Ez az egyetlen igazságforrás az osztálynevekre.
+# Minden adathalmaz licence: CC BY 4.0 (forrásmegjelölés kötelező, lásd app Névjegy ablak).
+
+drive_root: /content/drive/MyDrive/ppe-demo
+download_format: coco
+seed: 42
+split:
+  train: 0.70
+  val: 0.15
+  test: 0.15
+  group_by: source_file   # videókockák és Roboflow-augmentált másolatok egy csoportba
+
+# Fájlnév-részletek, amik kérdéses (stock / AI-generált) forrásra utalnak -> kiszűrjük.
+filename_blocklist:
+  - istockphoto
+  - shutterstock
+  - 260nw
+  - gettyimages
+  - Designer
+
+dedup:
+  method: phash
+  max_hamming_distance: 4
+  across_datasets: true
+
+# A forrás 'person' címkéit eldobjuk, a személyeket COCO-n előtanított YOLOX-s-sel
+# pszeudo-címkézzük minden képen.
+person_pseudo_label:
+  model: yolox_s_coco
+  min_confidence: 0.5
+  min_box_height_px: 40
+
+models:
+  head:
+    classes: [person, head_hairnet, head_cap, head_bare]
+    sources:
+      - name: safety_food
+        url: https://universe.roboflow.com/safety-food-system/safety-food
+        workspace: safety-food-system
+        project: safety-food
+        version: 3
+        class_map:
+          hairnet: head_hairnet
+          no_hairnet: head_bare
+        # minden más osztály (apron, gloves, rat, cockroach, lizard, mask...) eldobva
+      - name: aiproject
+        url: https://universe.roboflow.com/mohameds-workspace-lj9ht/aiproject-p8cqq
+        workspace: mohameds-workspace-lj9ht
+        project: aiproject-p8cqq
+        version: 3
+        class_map:
+          hairnet: head_hairnet
+          chef_hat: head_cap
+          no_hairnet: head_bare
+          No_Hat: head_bare
+        # person, footwear, apron, gloves, mask, smoking... eldobva
+  feet:
+    classes: [person, shoe_safety, shoe_other]
+    sources:
+      - name: ppe_det
+        url: https://universe.roboflow.com/andis-workspace-swrsu/ppe-det-umfdy
+        workspace: andis-workspace-swrsu
+        project: ppe-det-umfdy
+        version: 1
+        class_map:
+          Safety Shoes: shoe_safety
+          Without Safety Shoes: shoe_other
+        # Helmet, Mask, Safety Vest, Full body suit, Person, Without ... eldobva
+        notes: >
+          Vannak címke nélküli képek. Azokat a képeket, amelyeken a pszeudo-címkézés
+          személyt talál, de cipőcímke nincs, külön listázd ki a reports/ mappába,
+          és ne tedd be a tanítóhalmazba ellenőrzés nélkül.
+
+# Nem használt adathalmaz (hatókörön kívül), csak a döntés nyomon követéséhez.
+excluded:
+  - name: earplugs
+    url: https://universe.roboflow.com/lei-w1bza/earplugs-7wavj
+    reason: hatókörön kívül; kérdéses képforrások

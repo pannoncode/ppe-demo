@@ -1,0 +1,30 @@
+# PySide app és futtatási beállítások.
+
+camera:
+  source: 0            # webkamera indexe, vagy videófájl útvonala, vagy rtsp:// URL
+  backend: auto        # auto | dshow (Windows) | avfoundation (Mac) | any
+  width: 1280
+  height: 720
+  fps: 30
+
+models:
+  head_onnx: models/head_yolox_s.onnx
+  feet_onnx: models/feet_yolox_s.onnx
+  input_size: [640, 640]
+  providers: auto      # auto = Macen CoreML, ha van, különben CPU; Windowson CPU
+  feet_every_n_frames: 1   # 2 = a lábmodell csak minden második képkockán fut
+
+rules_config: configs/rules.yaml
+
+ui:
+  language: hu
+  show_fps: true
+  show_person_ids: false
+  event_log: true
+  save_frames: false   # adatvédelem: alapból nem mentünk képet
+
+about:
+  datasets_attribution:
+    - "Safety Food – Safety Food System, Roboflow Universe, CC BY 4.0"
+    - "AIProject – Mohameds Workspace, Roboflow Universe, CC BY 4.0"
+    - "PPE-DET – Andis Workspace, Roboflow Universe, CC BY 4.0"

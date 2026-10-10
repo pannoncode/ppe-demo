@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Notebook
+.ipynb_checkpoints/
+
+# Nagy fájlok – soha nem kerülnek gitbe
+models/
+data/
+datasets/
+*.onnx
+*.pth
+*.pt
+*.ckpt
+*.zip
+*.jpg
+*.jpeg
+*.png
+*.mp4
+*.avi
+runs/
+YOLOX_outputs/
+
+# Titkok
+.env
+*.key
+
+# OS
+.DS_Store
+Thumbs.db

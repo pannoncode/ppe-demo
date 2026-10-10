@@ -1,0 +1,51 @@
+# Szabálymotor beállításai. Zónánként mi kötelező.
+# Állapotok: green = minden kötelező elem megvan; red = valami hiányzik;
+# grey = a fej vagy a láb nem látszik, ezért nem ellenőrizhető (soha nem lesz piros).
+
+active_zone: hairnet_area
+
+zones:
+  hairnet_area:
+    label: "Hajhálós terület (nem HACCP)"
+    head:
+      required: true
+      allowed: [head_hairnet, head_cap]   # ezek bármelyike elfogadott
+      violation: [head_bare]
+    feet:
+      required: true
+      allowed: [shoe_safety]
+      violation: [shoe_other]
+
+  head_only:
+    label: "Csak fejfedő ellenőrzés"
+    head:
+      required: true
+      allowed: [head_hairnet, head_cap]
+      violation: [head_bare]
+    feet:
+      required: false
+
+thresholds:
+  person: 0.50
+  head_hairnet: 0.45
+  head_cap: 0.45
+  head_bare: 0.50
+  shoe_safety: 0.40
+  shoe_other: 0.45
+
+assignment:
+  head_region_top_fraction: 0.33   # fej középpontja a személykeret felső harmadában
+  feet_region_bottom_fraction: 0.25  # cipő középpontja a személykeret alsó negyedében
+
+smoothing:
+  window: 15        # utolsó N képkocka
+  min_agree: 10     # ebből legalább M egyezzen az állapotváltáshoz
+
+tracking:
+  method: bytetrack
+  max_lost_frames: 30
+
+colors_bgr:
+  green: [60, 180, 75]
+  red: [40, 40, 220]
+  grey: [160, 160, 160]
