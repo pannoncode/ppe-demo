@@ -135,8 +135,8 @@ ppe-demo/
 
 ## Aktuális állapot
 
-- [~] 0. fázis – repo-váz, `pyproject.toml`, konfigurációk validálása — kész, a YOLOX smoke test
-  (`notebooks/00_yolox_smoke_test.ipynb`) Colab-futásra vár; kész, ha `reports/smoke_result.json` rendben
+- [x] 0. fázis – repo-váz, `pyproject.toml`, konfigurációk validálása, YOLOX smoke test
+  (`reports/smoke_result.json`: pixeltable-yolox 0.4.2 megy Colabon, Python 3.13 / torch 2.11 / T4)
 - [ ] 1–2. fázis – adat-előkészítő notebook (okt. 12–14.)
 - [ ] 3. fázis – fej- és lábmodell tanítása Colabon (okt. 15–18.)
 - [ ] 4. fázis – ONNX export és inferencia-mag (okt. 19–22.)
