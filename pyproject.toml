@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ppe"
+version = "0.1.0"
+description = "PPE demo: hairnet/cap and safety shoe detection per person"
+requires-python = ">=3.11"
+# Core: only what the config loader and shared logic need, so that
+# `pip install -e .[train]` on Colab does not pull in GUI / OpenCV packages.
+dependencies = [
+    "numpy>=1.26",
+    "pyyaml>=6.0",
+    "pydantic>=2.6",
+]
+
+[project.optional-dependencies]
+# Desktop app and inference (Mac / Windows). Not installed on Colab.
+app = [
+    "onnxruntime>=1.18",
+    "opencv-python>=4.9",
+    "PySide6>=6.7",
+]
+# Data preparation, training and ONNX export (Colab, GPU).
+# torch has only a lower bound so Colab's preinstalled CUDA build is kept.
+train = [
+    "torch>=2.2.2",
+    "torchvision>=0.17.2",
+    "pixeltable-yolox==0.4.2",
+    "pycocotools>=2.0.11",  # <2.0.11 crashes at first eval (pixeltable-yolox #14)
+    "onnx>=1.17",
+    "onnxsim>=0.4.10",
+    "roboflow>=1.1",
+    "imagehash>=4.3",
+    "pillow>=10.0",
+    "tensorboard>=2.16",
+]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
