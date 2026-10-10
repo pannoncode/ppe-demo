@@ -99,7 +99,7 @@ ppe-demo/
 ├── pyproject.toml
 ├── configs/          # datasets.yaml, rules.yaml, app.yaml
 ├── docs/             # PLAN.md, DECISIONS.md
-├── notebooks/        # 01_data_prep, 02_train_head, 03_train_feet, 04_export_onnx
+├── notebooks/        # 00_yolox_smoke_test, 01_data_prep, 02_train_head, 03_train_feet, 04_export_onnx
 ├── exps/             # YOLOX experiment fájlok (head_yolox_s.py, feet_yolox_s.py)
 ├── src/ppe/
 │   ├── data/         # letöltés, osztálytérkép, szűrés, dedup, split, pszeudo-címke
@@ -135,7 +135,8 @@ ppe-demo/
 
 ## Aktuális állapot
 
-- [ ] 0. fázis – repo-váz, `pyproject.toml`, konfigurációk validálása
+- [~] 0. fázis – repo-váz, `pyproject.toml`, konfigurációk validálása — kész, a YOLOX smoke test
+  (`notebooks/00_yolox_smoke_test.ipynb`) Colab-futásra vár; kész, ha `reports/smoke_result.json` rendben
 - [ ] 1–2. fázis – adat-előkészítő notebook (okt. 12–14.)
 - [ ] 3. fázis – fej- és lábmodell tanítása Colabon (okt. 15–18.)
 - [ ] 4. fázis – ONNX export és inferencia-mag (okt. 19–22.)
